@@ -77,10 +77,11 @@ export default function Home() {
       const { data } = await client.getOwnedObjects({
         owner: inputAddress,
         options: { showContent: true, showDisplay: true },
-        limit: 50, // Increase limit to get more objects
+        limit: 50,
       })
 
       console.log("Fetched objects:", data)
+      // console.log("Fetched objectxxs:", data[0].data.content.type)
       setObjects(data)
     } catch (err) {
       console.error(err)
@@ -97,22 +98,23 @@ export default function Home() {
 
   // Helper function to determine if an object is a site
   const isSiteObject = (obj: any) => {
-    if (!obj.data.type) return false
+    if (!obj.data.content.type) return false
     return (
-      obj.data.type.includes("::site::") ||
-      obj.data.type.includes("::website::") ||
-      obj.data.type.toLowerCase().includes("site")
+      obj.data.content.type.includes("::site::") ||
+      obj.data.content.type.includes("::website::") ||
+      obj.data.content.type.toLowerCase().includes("site")
     )
   }
 
   // Helper function to determine if an object is a blob
   const isBlobObject = (obj: any) => {
-    if (!obj.data.type) return false
+    if (!obj.data.content.type) return false
+    console.log("obj.data.type", obj.data.content.type)
     return (
-      obj.data.type.includes("::blob::") ||
-      obj.data.type.includes("::file::") ||
-      obj.data.type.includes("::image::") ||
-      obj.data.type.toLowerCase().includes("blob")
+      obj.data.content.type.includes("::blob::") ||
+      obj.data.content.type.includes("::file::") ||
+      obj.data.content.type.includes("::image::") ||
+      obj.data.content.type.toLowerCase().includes("blob")
     )
   }
 
